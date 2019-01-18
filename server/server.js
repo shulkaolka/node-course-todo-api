@@ -93,14 +93,16 @@ app.patch('/todos/:id', (req, res) => {
 });
 
 app.post('/users', (req, res) => {
-  var user = new User({
-    email:req.body.email
+  var body = _.pick(req.body, ['email', 'password']);
+  var user = new User(body);
+
+  user.save().then(() => {
+    return user.generateAuthToken();
+  }).then((token) => {
+    res.header('x-auth').send(user);
+  }).catch((e) => {
+    res.status(400).send(e);
   });
-  user.save().then((doc) => {
-    res.send(doc);
-  }, (e) => {
-    res.status(400).send(e)
-  })
 });
 
 app.listen(PORT, () => {
