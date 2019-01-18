@@ -91,18 +91,14 @@ describe('GET /todos/:id', () => {
       request(app)
       .get(`/todos/${invalidId}`)
       .expect(404)
-      // .expect((res) => {
-      //   expect(res.body.todo.text).toBe(todos[0].text)})
-        .end(done);
+      .end(done);
       });
 
       it('should return 404 for non-object ids', (done) => {
         request(app)
         .get('/todos/123')
         .expect(404)
-        // .expect((res) => {
-        //   expect(res.body.todo.text).toBe(todos[0].text)})
-          .end(done);
+        .end(done);
         });
 });
 
